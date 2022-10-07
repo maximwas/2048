@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  transition: transform 5s ease;
+}
+
+.bubble {
+  animation: bubble 0.5s ease 0s forwards;
+  transition: none !important;
+  z-index: 1 !important;
+}
+
+$xs: 0, 1, 2, 3;
+$ys: 0, 1, 2, 3;
+
+@each $x in $xs {
+  @each $y in $ys {
+    .position-#{$x}-#{$y} {
+      transform: translate(#{$y * 96 + 8 * $y}px, #{$x * 96 + 8 * $x}px);
+      z-index: 200;
+    }
+  }
+}
+
+@keyframes bubble {
+  0% {
+    scale: 0.5;
+  }
+
+  50% {
+    scale: 1.1;
+  }
+
+  100% {
+    scale: 1;
+  }
+}
