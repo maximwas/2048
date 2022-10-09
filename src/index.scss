@@ -12,35 +12,88 @@ body,
   align-items: center;
 }
 
-.card {
-  transition: transform 5s ease;
+.tile.new {
+  animation-duration: 0.20s;
+  animation-name: bubble;
+  animation-fill-mode: forwards;
+  animation-delay: 0.15s;
+  scale: 0;
 }
 
-.bubble {
-  animation: bubble 0.5s ease 0s forwards;
-  transition: none !important;
-  z-index: 1 !important;
+.tile.merged {
+  display: none !important;
 }
 
-$xs: 0, 1, 2, 3;
-$ys: 0, 1, 2, 3;
+.tile.merged.isMoving {
+  display: flex !important;
+}
 
-@each $x in $xs {
-  @each $y in $ys {
-    .position-#{$x}-#{$y} {
-      transform: translate(#{$y * 96 + 8 * $y}px, #{$x * 96 + 8 * $x}px);
-      z-index: 200;
+@for $row from 0 through 3 {
+  @for $column from 0 through 3 {
+    .position-#{$row}-#{$column}:not(.isMoving) {
+      top: #{96 * $row + 8 * $row}px;
+      left: #{96 * $column + 8 * $column}px;
+    }
+  }
+}
+
+@for $fromRow from 0 through 3 {
+  @for $toRow from 0 through 3 {
+    $name: row-from-#{$fromRow}-to-#{$toRow};
+
+    @if $fromRow == $toRow {
+      .#{$name} {
+        top: #{96 * $toRow + 8 * $toRow}px;
+      }
+    } @else {
+      .#{$name} {
+        animation-duration: 0.20s;
+        animation-name: $name;
+        animation-fill-mode: forwards;
+      }
+
+      @keyframes #{$name} {
+        from {
+          top: #{96 * $fromRow + 8 * $fromRow}px;
+        }
+        to {
+          top: #{96 * $toRow + 8 * $toRow}px;
+        }
+      }
+    }
+  }
+}
+
+@for $fromColumn from 0 through 3 {
+  @for $toColumn from 0 through 3 {
+    $name: column-from-#{$fromColumn}-to-#{$toColumn};
+
+    @if $fromColumn == $toColumn {
+      .#{$name} {
+        left: #{96 * $toColumn + 8 * $toColumn}px;
+      }
+    } @else {
+      .#{$name} {
+        animation-duration: 0.20s;
+        animation-name: $name;
+        animation-fill-mode: forwards;
+      }
+
+      @keyframes #{$name} {
+        from {
+          left: #{96 * $fromColumn + 8 * $fromColumn}px;
+        }
+        to {
+          left: #{96 * $toColumn + 8 * $toColumn}px;
+        }
+      }
     }
   }
 }
 
 @keyframes bubble {
   0% {
-    scale: 0.5;
-  }
-
-  50% {
-    scale: 1.1;
+    scale: 0;
   }
 
   100% {

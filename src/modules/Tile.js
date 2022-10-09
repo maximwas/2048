@@ -1,32 +1,43 @@
 class Tile {
-  constructor({ x, y }, value) {
-    this.x = x;
-    this.y = y;
+  constructor(value, row, column) {
     this.value = value || 0;
-    this.previousPosition = null;
-    this.mergedFrom = null;
+    this.row = row || -1;
+    this.column = column || -1;
+    this.oldRow = -1;
+    this.oldColumn = -1;
+    this.markForDeletion = false;
+    this.mergedInto = null;
   }
 
-  savePosition() {
-    this.previousPosition = {
-      x: this.x,
-      y: this.y
-    };
+  moveTo(row, column) {
+    this.oldRow = this.row;
+    this.oldColumn = this.column;
+    this.row = row;
+    this.column = column;
   }
 
-  updatePosition({ x, y }) {
-    this.x = x;
-    this.y = y;
+  get isNew() {
+    return this.oldRow == -1 && !this.mergedInto;
   }
 
-  serialize() {
-    return {
-      position: {
-        x: this.x,
-        y: this.y
-      },
-      value: this.value
-    };
+  get hasMoved() {
+    return (this.fromRow != -1 && (this.fromRow != this.toRow || this.fromColumn != this.toColumn)) || this.mergedInto;
+  }
+
+  get fromRow() {
+    return this.mergedInto ? this.row : this.oldRow;
+  }
+
+  get fromColumn() {
+    return this.mergedInto ? this.column : this.oldColumn;
+  }
+  
+  get toRow() {
+    return this.mergedInto ? this.mergedInto.row : this.row;
+  }
+
+  get toColumn() {
+    return this.mergedInto ? this.mergedInto.column : this.column;
   }
 }
 
