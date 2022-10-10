@@ -1,6 +1,6 @@
 import React, { useEffect, memo } from 'react'
 
-const Card = ({ tile }) => {
+const Tile = ({ tile }) => {
   const getBackgroundColorCard = () => {
     if(tile.value === 2) return 'bg-slate-400 text-gray-900';
     else if(tile.value === 4) return 'bg-red-300 text-gray-900';
@@ -41,4 +41,4 @@ const Card = ({ tile }) => {
   )
 }
 
-export default Card;
+export default Tile;
