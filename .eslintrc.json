@@ -1,0 +1,7 @@
+{
+    "extends": "react-app",
+    "plugins" : [ "jsx-a11y" ],
+    "rules": {
+        "react-hooks/exhaustive-deps" : 0
+    }
+}

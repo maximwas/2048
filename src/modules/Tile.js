@@ -17,11 +17,11 @@ class Tile {
   }
 
   get isNew() {
-    return this.oldRow == -1 && !this.mergedInto;
+    return this.oldRow === -1 && !this.mergedInto;
   }
 
   get hasMoved() {
-    return (this.fromRow != -1 && (this.fromRow != this.toRow || this.fromColumn != this.toColumn)) || this.mergedInto;
+    return (this.fromRow !== -1 && (this.fromRow !== this.toRow || this.fromColumn !== this.toColumn)) || this.mergedInto;
   }
 
   get fromRow() {

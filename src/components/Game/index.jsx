@@ -9,9 +9,9 @@ const Game = () => {
   const SIZE_FILED = 4;
   const [board, setBoard] = useState(new Board(SIZE_FILED));
   const [data, setData] = useState([]);
-  const [field, setField] = useState([...Array(SIZE_FILED ** 2)]);
+  const [field] = useState([...Array(SIZE_FILED ** 2)]);
 
-  const keyBoard = (evt) => {
+  const handlerKeyDown = (evt) => {
     const { keyCode } = evt;
 
     if (board.hasWon) {
@@ -26,12 +26,15 @@ const Game = () => {
   };
 
   useEffect(() => {
-    setData(board?.getTiles);
-    window.addEventListener("keydown", keyBoard);
+    window.addEventListener("keydown", handlerKeyDown);
 
     return () => {
-      window.removeEventListener("keydown", keyBoard);
+      window.removeEventListener("keydown", handlerKeyDown);
     };
+  }, []);
+
+  useEffect(() => {
+    setData(board?.getTiles);
   }, [board]);
 
   return (

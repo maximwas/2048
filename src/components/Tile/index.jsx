@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react'
+import React from 'react'
 
 const Tile = ({ tile }) => {
   const getBackgroundColorCard = () => {

@@ -122,7 +122,7 @@ class Board {
   }
 
   #clearOldTiles() {
-    this.tiles = this.tiles.filter(tile => tile.markForDeletion == false);
+    this.tiles = this.tiles.filter(tile => tile.markForDeletion === false);
     this.tiles.forEach(tile => { tile.markForDeletion = true; });
   }
 
