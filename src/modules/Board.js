@@ -6,18 +6,21 @@ class Board {
     this.size = size;
     this.tiles = [];
     this.cells = [];
+    this.won = false;
+
     this.#fillTile();
     this.#addRandomTile();
     this.#setPositions();
-    this.won = false;
   }
 
   #fillTile() {
     for (let i = 0; i < this.size; ++i) {
       const tiles = [];
+      
       for (let j = 0; j < this.size; ++j) {
         tiles.push(this.#addTile())
       }
+
       this.cells.push(tiles)
     }
   }
@@ -30,21 +33,21 @@ class Board {
   }
 
   #addRandomTile() {
-    let emptyCells = [];
-    for (let r = 0; r < this.size; ++r) {
-      for (let c = 0; c < this.size; ++c) {
-        if (this.cells[r][c].value == 0) {
-          emptyCells.push({r: r, c: c});
-        }
+    const range = _.range(2, 6, 2);
+    const number = range[_.random(0, 1)];
+
+    while(true) {
+      const col = _.random(0, this.size - 1);
+      const row = _.random(0, this.size - 1);
+
+      if(!this.cells[col][row].value) {
+        this.cells[col][row] = this.#addTile(number);
+        break;
       }
     }
-    let index = ~~(Math.random() * emptyCells.length);
-    let cell = emptyCells[index];
-    let newValue = Math.random() < Board.fourProbability ? 4 : 2;
-    this.cells[cell.r][cell.c] = this.#addTile(newValue);
   }
 
-  #setPositions = function () {
+  #setPositions() {
     this.cells.forEach((row, rowIndex) => {
       row.forEach((tile, columnIndex) => {
         tile.oldRow = tile.row;
@@ -58,6 +61,7 @@ class Board {
 
   #moveLeft() {
     let hasChanged = false;
+
     for (let row = 0; row < this.size; ++row) {
       const currentRow = this.cells[row].filter(tile => tile.value !== 0);
       const resultRow = [];
@@ -77,6 +81,7 @@ class Board {
       }
       this.cells[row] = resultRow;
     }
+
     return hasChanged;
   }
 
@@ -84,27 +89,33 @@ class Board {
     let rows = matrix.length;
     let columns = matrix[0].length;
     let res = [];
+
     for (let row = 0; row < rows; ++row) {
       res.push([]);
       for (let column = 0; column < columns; ++column) {
         res[row][column] = matrix[column][columns - row - 1];
       }
     }
+
     return res;
   };
 
   move(direction) {
     this.#clearOldTiles();
+
     for (let i = 0; i < direction; ++i) {
       this.cells = this.#rotateLeft(this.cells);
     }
+
     let hasChanged = this.#moveLeft();
     for (let i = direction; i < this.size; ++i) {
       this.cells = this.#rotateLeft(this.cells);
     }
+
     if (hasChanged) {
       this.#addRandomTile();
     }
+
     this.#setPositions();
 
     return this;

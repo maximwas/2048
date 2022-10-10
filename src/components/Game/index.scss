@@ -14,8 +14,8 @@
   display: flex !important;
 }
 
-@for $row from 0 through 7 {
-  @for $column from 0 through 7 {
+@for $row from 0 through 3 {
+  @for $column from 0 through 3 {
     .position-#{$row}-#{$column}:not(.isMoving) {
       top: #{96 * $row + 8 * $row}px;
       left: #{96 * $column + 8 * $column}px;
@@ -23,8 +23,8 @@
   }
 }
 
-@for $fromRow from 0 through 7 {
-  @for $toRow from 0 through 7 {
+@for $fromRow from 0 through 3 {
+  @for $toRow from 0 through 3 {
     $name: row-from-#{$fromRow}-to-#{$toRow};
 
     @if $fromRow == $toRow {
@@ -50,8 +50,8 @@
   }
 }
 
-@for $fromColumn from 0 through 7 {
-  @for $toColumn from 0 through 7 {
+@for $fromColumn from 0 through 3 {
+  @for $toColumn from 0 through 3 {
     $name: column-from-#{$fromColumn}-to-#{$toColumn};
 
     @if $fromColumn == $toColumn {
